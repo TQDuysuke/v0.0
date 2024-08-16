@@ -1,0 +1,20 @@
+@mixin input{
+    margin-top: 10px;
+    margin-bottom: 15px;
+    height: 45px;
+    border: 1px solid $london-square;
+    border-radius: 5px;
+}
+@mixin button{
+    margin-top: 10px;
+    margin-bottom: 15px;
+    padding-left: 20%;
+    padding-right: 20%;
+    height: 45px;
+    border: 1px solid $london-square;
+    border-radius: 5px;
+    background-color:$dark-periwinkle;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}
