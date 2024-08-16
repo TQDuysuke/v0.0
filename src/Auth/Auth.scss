@@ -7,7 +7,7 @@
     justify-content: center;
     .Login{
         width: 1300px;
-        height: 700px;
+        height: fit-content;
         border-radius: 15px;
         box-shadow: $box-shadow;
         display: grid;
@@ -48,8 +48,12 @@
                 width: 90%;
                 @include input
             }
-            input[type=button]{
+            input[type=submit]{
                 @include button
+            }
+            input:hover{
+                border: 2px solid $dark-periwinkle;
+                transition: all 500ms;
             }
             h4{
                 cursor: pointer;

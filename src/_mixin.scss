@@ -2,7 +2,7 @@
     margin-top: 10px;
     margin-bottom: 15px;
     height: 45px;
-    border: 1px solid $london-square;
+    border: 2px solid $london-square;
     border-radius: 5px;
 }
 @mixin button{
@@ -11,7 +11,7 @@
     padding-left: 20%;
     padding-right: 20%;
     height: 45px;
-    border: 1px solid $london-square;
+    border: 2px solid $dark-periwinkle;
     border-radius: 5px;
     background-color:$dark-periwinkle;
     color: #fff;

@@ -1,11 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react';
 import './App.scss'
-import Auth from './pages/Auth'
+import Auth from './Auth/Auth'
 
 const App = () => {
+  const [Login, SetLogin] = useState(false);
+  const handleDataFromChild = (data) => {
+    // console.log(data);
+    if(data.email){
+      SetLogin(true);
+    }
+  };
   return (
     <div className='Background'>
-      <Auth/>
+      {Login ? <div/> : <Auth onData={handleDataFromChild}/>}
     </div>
   )
 }
