@@ -1,0 +1,18 @@
+    .Main{
+        display: grid;
+        grid-template-columns: 1fr;
+        .Container{
+            width: 97vw;
+            height: 84vh;
+            // background-color: red;
+        }
+    }
+@media screen and (max-width: 1200px){
+    .Main{
+        .Container{
+            width: 97vw;
+            height: 90vh;
+                // background-color: red;
+        }
+    }
+}

@@ -1,0 +1,26 @@
+@import '../../color';
+.Ublock{
+    // padding: 10px;
+}
+.User{
+    color: $white-ui;
+    background-color: $dark-periwinkle;
+    border-radius: 5px;
+    // box-shadow: 0px 0px 15px 2px $color-Main;
+    text-align: left;
+    display: flex;
+    flex-direction: 1;
+    gap: 10px;
+    padding: 5px;
+    .Icon{
+        margin-left: 50px;
+        margin-top: 14px;
+    }
+    h3{
+        font-size: 16px;
+        .Sub{
+            font-size: 15px;
+            font-weight: 300;
+        }
+    }
+}
