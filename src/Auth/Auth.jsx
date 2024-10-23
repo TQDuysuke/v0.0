@@ -19,12 +19,11 @@ function handleSubmit(e){
   onData(userForm)
 }
 function LoginForm() {
-  // Xử lý logic của form đăng nhập
   return (
     <form onSubmit={handleSubmit}>
     <div className="SubTitle">
       <h5>Welcome</h5>
-      <h1>Sign In to ESD Platform</h1>
+      <h1>Sign In to EDev Platform</h1>
     </div>
     <div className="LoginForm">
       <p>Email<br/><input type="email" placeholder='Type your email' /></p>
@@ -37,7 +36,6 @@ function LoginForm() {
 }
 
 function RegisterForm() {
-  // Xử lý logic của form đăng ký
   return (
         <form>
           <div className="SubTitle">
@@ -59,7 +57,7 @@ function RegisterForm() {
     <div className='Background'>
       <div className='Login'>
         <div className='Title'>
-          <h1>EDS Platform</h1>
+          <h1>EDev Platform</h1>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit suspendisse.</p>
           <img className='LoginVector' src={Vector} alt="application vector" />
         </div>
