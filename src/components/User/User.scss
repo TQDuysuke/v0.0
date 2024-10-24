@@ -1,7 +1,4 @@
 @import '../../color';
-.Ublock{
-    // padding: 10px;
-}
 .User{
     color: $white-ui;
     background-color: $dark-periwinkle;
@@ -20,6 +17,19 @@
         .Sub{
             font-size: 15px;
             font-weight: 300;
+        }
+    }
+}
+@media screen and (max-width: 1200px){
+    .Ublock{
+        margin-top: 60px;
+        padding: 5px;
+    }
+    .User{
+        margin-top: 20px;
+        .Icon{
+            margin-left: 0px;
+            margin-top: 14px;
         }
     }
 }

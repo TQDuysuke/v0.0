@@ -17,7 +17,6 @@ const Home = (props) => {
       Loaded.current = true;
     }
     return () => {
-      console.log('Component đã được unmount');
     };
     });
   return (

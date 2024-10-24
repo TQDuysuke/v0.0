@@ -1,5 +1,5 @@
 @import '../../../_color';
-
+@import '../../../mixin';
 /* Device.scss */
 
 .device-card {
@@ -62,9 +62,8 @@
         gap: 20px;
       }
     }
-  
     button {
-      margin-top: 15px;
+      @include button;
     }
   }
   
@@ -75,9 +74,12 @@
         }
     }
     .popup{
+      position: absolute;
+      width: 100%;
+      height: unset;
       .popup-inner{
         .popupchart{
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: 1fr ;
         }
       }
     }

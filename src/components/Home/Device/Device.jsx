@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect , useRef } from 'react';
 import { getDatabase, ref, child, get } from "firebase/database";
 import {DevChart} from '../Datatemplate';
 import ChartJS from './ChartJS/ChartJS'
@@ -7,21 +7,47 @@ import './Device.scss';
 const Device = (props) => {
     const [isOpen, setIsOpen] = useState(false);
     const [ChartData, SetChart] = useState(DevChart);
-    getData(props.uid, props.id);
+    const [rfValues, setRfValues] = useState([]);
+    const [fldValues, setFldValues] = useState([]);
+    const [wlValues, setWlValues] = useState([]);
+    const [batValues, setBatValues] = useState([]);
+    const Loaded = useRef(false);
+    useEffect(() => {
+      if (!Loaded.current) {
+        getData(props.uid, props.id);
+        Loaded.current = true;
+      }
+      return () => {
+      };
+      });
+
     const togglePopup = () => {
-      getData(props.uid, props.id);
+      if(!ChartData){
+        getData(props.uid, props.id);
+      }
       console.log(ChartData);
+      setRfValues(extractValues("2023-23-10", "RF"));
+      setFldValues(extractValues("2023-23-10", "FLD"));
+      setWlValues(extractValues("2023-23-10", "WL"));
+      setBatValues(extractValues("2023-23-10", "BAT"));
       setIsOpen(!isOpen);
     };
     const formatTimestamp = (timestamp) => {
-        const date = new Date(timestamp * 1000); // Convert seconds to milliseconds
+        const date = new Date(timestamp * 1000); 
         const year = date.getFullYear();
         const month = ("0" + (date.getMonth() + 1)).slice(-2);
         const day = ("0" + date.getDate()).slice(-2);
         const hours = ("0" + date.getHours()).slice(-2);
         const minutes = ("0" + date.getMinutes()).slice(-2);
-        
         return `${day}/${month}/${year} ${hours}:${minutes}`;
+    };
+    const extractValues = (date, key) => {
+      const valuesArray = [];
+      const times = Object.keys(ChartData.Data[date]);
+      times.forEach(time => {
+        valuesArray.push(ChartData.Data[date][time][key]);
+      });
+      return valuesArray;
     };
   return (
     <div>
@@ -55,12 +81,12 @@ const Device = (props) => {
           <div className="popup-inner">
             <h2>{props.name} data preview {formatTimestamp(props.lastupdate).slice(0, 10)}</h2>
             <div className="popupchart">
-                <ChartJS data = {ChartData}/>
-                <ChartJS data = {ChartData}/>
-                <ChartJS data = {ChartData}/>
-                <ChartJS data = {ChartData}/>
+                <ChartJS dat = {wlValues} name = "Water level" color = "#1B9CFC"/>
+                <ChartJS dat = {rfValues} name = "Rain fall" color = "#00B4D8"/>
+                <ChartJS dat = {fldValues} name = "Flood Likelihood" color = "#FF9F43"/>
+                <ChartJS dat = {batValues} name = "Battery" color = "#FF6B6B"/>
             </div>
-            <button onClick={togglePopup}>Close Popup</button>
+            <button className='button-9' onClick={togglePopup}>CLOSE DATA VIEWER</button>
           </div>
         </div>
       )}
@@ -71,6 +97,7 @@ const Device = (props) => {
     get(child(dbRef, `user/${userId}/DataLoger/${path}`)).then((snapshot) => {
       if (snapshot.exists()) {
         SetChart(snapshot.val());  
+        console.log(snapshot.val());
       } else {
         console.log("No data available");
       }

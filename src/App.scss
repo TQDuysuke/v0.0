@@ -1,5 +1,7 @@
 @import '_color';
-.Background{
+:root{
   background-color: $white-ui ;
+}
+.Background{
   height: 100vh;
 }
