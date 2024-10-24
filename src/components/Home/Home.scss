@@ -1,18 +1,28 @@
     .Main{
         display: grid;
         grid-template-columns: 1fr;
+        gap: 20px;
         .Container{
-            width: 97vw;
+            width: 99vw;
             height: 84vh;
+            .Cards{
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+                gap: 15px;
+            }
             // background-color: red;
         }
     }
 @media screen and (max-width: 1200px){
     .Main{
         .Container{
-            width: 97vw;
-            height: 90vh;
-                // background-color: red;
+            width: 98vw;
+            height: 92vh;
+            .Cards{
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
         }
     }
 }

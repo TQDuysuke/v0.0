@@ -1,26 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect , useRef } from 'react';
 import { getDatabase, ref, child, get } from "firebase/database";
+import DeviceTemmplate from './Datatemplate';
 import User from '../User/User'
+import Devices from './Device/Device';
+import Addnew from './Device/Addnew';
 import './Home.scss'
 
 const Home = (props) => {
   const [Infor, SetInfor] = useState(" ");
-  getData(props.User.uid)
+  const [Device, SetDevice] = useState(DeviceTemmplate);
+  const Loaded = useRef(false);
+  useEffect(() => {
+    if (!Loaded.current) {
+      getData(props.User.uid, "Profile")
+      getData(props.User.uid, "Device")
+      Loaded.current = true;
+    }
+    return () => {
+      console.log('Component đã được unmount');
+    };
+    });
   return (
     <div className='Main'>
       <div className="Profile">
         <User Profile = {Infor}/>
       </div>
       <div className="Container">
-        a
+        <div className="Cards">
+        {Object.keys(Device).map((id) => (
+          <Devices 
+          key={id} 
+          id = {id}
+          lastupdate = {Device[id].LastTime}
+          battery= {Device[id].Monitoring.BAT}
+          flood= {Device[id].Monitoring.FLD}
+          rainfall= {Device[id].Monitoring.RF}
+          waterlevel= {Device[id].Monitoring.WL}
+          name= {Device[id].Name}
+          /> ))}
+          <Addnew/>
+        </div>
       </div>
     </div>
   )
-  function getData(userId) {
+  function getData(userId, path) {
     const dbRef = ref(getDatabase());
-    get(child(dbRef, `user/${userId}/Profile`)).then((snapshot) => {
+    get(child(dbRef, `user/${userId}/${path}`)).then((snapshot) => {
       if (snapshot.exists()) {
-        SetInfor(snapshot.val());  
+        if(path === "Profile"){
+          SetInfor(snapshot.val());  
+        }else if(path === "Device"){
+          SetDevice(snapshot.val())
+        }
       } else {
         console.log("No data available");
       }
