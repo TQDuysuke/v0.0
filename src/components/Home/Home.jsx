@@ -1,6 +1,6 @@
 import React, { useState , useEffect , useRef } from 'react';
 import { getDatabase, ref, child, get } from "firebase/database";
-import DeviceTemmplate from './Datatemplate';
+import {DeviceTemmplate} from './Datatemplate';
 import User from '../User/User'
 import Devices from './Device/Device';
 import Addnew from './Device/Addnew';
@@ -31,6 +31,7 @@ const Home = (props) => {
           <Devices 
           key={id} 
           id = {id}
+          uid = {props.User.uid}
           lastupdate = {Device[id].LastTime}
           battery= {Device[id].Monitoring.BAT}
           flood= {Device[id].Monitoring.FLD}
