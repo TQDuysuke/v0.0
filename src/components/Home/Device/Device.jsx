@@ -11,6 +11,7 @@ const Device = (props) => {
     const [fldValues, setFldValues] = useState([]);
     const [wlValues, setWlValues] = useState([]);
     const [batValues, setBatValues] = useState([]);
+    const [KeyTime, setKeyTime] = useState([]);
     const Loaded = useRef(false);
     useEffect(() => {
       if (!Loaded.current) {
@@ -25,11 +26,14 @@ const Device = (props) => {
       if(!ChartData){
         getData(props.uid, props.id);
       }
-      console.log(ChartData);
-      setRfValues(extractValues("2023-23-10", "RF"));
-      setFldValues(extractValues("2023-23-10", "FLD"));
-      setWlValues(extractValues("2023-23-10", "WL"));
-      setBatValues(extractValues("2023-23-10", "BAT"));
+      // console.log(ChartData.Data["2024-10-31"]);
+      if (ChartData.Data["2024-10-31"]) {
+        setRfValues(extractValues("2024-10-31", "RF"));
+        setFldValues(extractValues("2024-10-31", "FLD"));
+        setWlValues(extractValues("2024-10-31", "WL"));
+        setBatValues(extractValues("2024-10-31", "BAT"));
+        setKeyTime(Object.keys(ChartData.Data["2024-10-31"]));
+      }
       setIsOpen(!isOpen);
     };
     const formatTimestamp = (timestamp) => {
@@ -49,6 +53,7 @@ const Device = (props) => {
       });
       return valuesArray;
     };
+    
   return (
     <div>
         <div onClick={togglePopup} className="device-card">
@@ -81,10 +86,10 @@ const Device = (props) => {
           <div className="popup-inner">
             <h2>{props.name} data preview {formatTimestamp(props.lastupdate).slice(0, 10)}</h2>
             <div className="popupchart">
-                <ChartJS dat = {wlValues} name = "Water level" color = "#1B9CFC"/>
-                <ChartJS dat = {rfValues} name = "Rain fall" color = "#00B4D8"/>
-                <ChartJS dat = {fldValues} name = "Flood Likelihood" color = "#FF9F43"/>
-                <ChartJS dat = {batValues} name = "Battery" color = "#FF6B6B"/>
+                <ChartJS time = {KeyTime} dat = {wlValues} name = "Water level" color = "#1B9CFC"/>
+                <ChartJS time = {KeyTime} dat = {rfValues} name = "Rain fall" color = "#00B4D8"/>
+                <ChartJS time = {KeyTime} dat = {fldValues} name = "Flood Likelihood" color = "#FF9F43"/>
+                <ChartJS time = {KeyTime} dat = {batValues} name = "Battery" color = "#FF6B6B"/>
             </div>
             <button className='button-9' onClick={togglePopup}>CLOSE DATA VIEWER</button>
           </div>
@@ -97,7 +102,7 @@ const Device = (props) => {
     get(child(dbRef, `user/${userId}/DataLoger/${path}`)).then((snapshot) => {
       if (snapshot.exists()) {
         SetChart(snapshot.val());  
-        console.log(snapshot.val());
+        // console.log(snapshot.val());
       } else {
         console.log("No data available");
       }
