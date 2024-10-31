@@ -3,15 +3,19 @@ import { getDatabase, ref, child, get } from "firebase/database";
 import {DevChart} from '../Datatemplate';
 import ChartJS from './ChartJS/ChartJS'
 import './Device.scss';
-
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+var formattedDate ;
 const Device = (props) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isConfig, setConfig] = useState(false);
     const [ChartData, SetChart] = useState(DevChart);
     const [rfValues, setRfValues] = useState([]);
     const [fldValues, setFldValues] = useState([]);
     const [wlValues, setWlValues] = useState([]);
     const [batValues, setBatValues] = useState([]);
     const [KeyTime, setKeyTime] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(new Date());
     const Loaded = useRef(false);
     useEffect(() => {
       if (!Loaded.current) {
@@ -26,16 +30,33 @@ const Device = (props) => {
       if(!ChartData){
         getData(props.uid, props.id);
       }
+      formattedDate = formatDate(selectedDate);
+      console.log(formattedDate);
+      
       // console.log(ChartData.Data["2024-10-31"]);
-      if (ChartData.Data["2024-10-31"]) {
-        setRfValues(extractValues("2024-10-31", "RF"));
-        setFldValues(extractValues("2024-10-31", "FLD"));
-        setWlValues(extractValues("2024-10-31", "WL"));
-        setBatValues(extractValues("2024-10-31", "BAT"));
-        setKeyTime(Object.keys(ChartData.Data["2024-10-31"]));
+      if (ChartData.Data[formattedDate]) {
+        setRfValues(extractValues(formattedDate, "RF"));
+        setFldValues(extractValues(formattedDate, "FLD"));
+        setWlValues(extractValues(formattedDate, "WL"));
+        setBatValues(extractValues(formattedDate, "BAT"));
+        setKeyTime(Object.keys(ChartData.Data[formattedDate]));
+        console.log(true);
+      } else {
+        console.log(false);
+        setRfValues(null);
+        setFldValues(null);
+        setWlValues(null);
+        setBatValues(null);
+        setKeyTime(null);
       }
+      setConfig(false);
       setIsOpen(!isOpen);
     };
+    const toggleDaypick=()=>{
+      setConfig(!isConfig);
+      console.log(1);
+      
+    }
     const formatTimestamp = (timestamp) => {
         const date = new Date(timestamp * 1000); 
         const year = date.getFullYear();
@@ -53,10 +74,15 @@ const Device = (props) => {
       });
       return valuesArray;
     };
-    
+    const formatDate = (date) => {
+      const year = date.getFullYear();
+      const month = ("0" + (date.getMonth() + 1)).slice(-2);
+      const day = ("0" + date.getDate()).slice(-2);
+      return `${year}-${month}-${day}`;
+    };
   return (
     <div>
-        <div onClick={togglePopup} className="device-card">
+        <div onClick={toggleDaypick} className="device-card">
             <div className="device-item">
             <span className="title">{props.name} information</span>
             </div>
@@ -81,10 +107,25 @@ const Device = (props) => {
         <span className="label">Last update: </span>
         <span className="value">{formatTimestamp(props.lastupdate)}</span>
         </div>
-        {isOpen && (
-        <div className="popup">
+        {isConfig && (
+            <div className="popup">
+              <div className="popupDate">
+                <h2>Choose day to show data</h2>
+                <div className="date-picker-wrapper">
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={(date) => setSelectedDate(date)}
+                  dateFormat="yyyy-MM-dd"
+                  />
+                </div>
+               <button className='buttonT' onClick={togglePopup}>Open data</button>
+              </div>
+            </div>
+      )}
+          {isOpen && (
+          <div className="popup">
           <div className="popup-inner">
-            <h2>{props.name} data preview {formatTimestamp(props.lastupdate).slice(0, 10)}</h2>
+            <h2>{props.name} data preview {formattedDate}</h2>
             <div className="popupchart">
                 <ChartJS time = {KeyTime} dat = {wlValues} name = "Water level" color = "#1B9CFC"/>
                 <ChartJS time = {KeyTime} dat = {rfValues} name = "Rain fall" color = "#00B4D8"/>
@@ -94,7 +135,7 @@ const Device = (props) => {
             <button className='button-9' onClick={togglePopup}>CLOSE DATA VIEWER</button>
           </div>
         </div>
-      )}
+         )}
     </div>
   );
   function getData(userId, path) {

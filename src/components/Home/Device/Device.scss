@@ -61,9 +61,37 @@
         grid-template-columns: 1fr 1fr;
         gap: 20px;
       }
+      button {
+        @include button;
+      }
     }
-    button {
-      @include button;
+    .popupDate {
+      background-color: white;
+      display: grid;
+      grid-template-columns: 1fr;
+      // width: 400px;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      .buttonT{
+        @include button;
+      }
+      .date-picker-wrapper {
+        .react-datepicker-wrapper {
+          // width: 80vw;
+        }
+        .react-datepicker__input-container {
+          input {
+            text-align: center;
+            @include button;
+            width: 20vw;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+          }
+        }
+      }
     }
   }
   
@@ -77,6 +105,7 @@
       position: absolute;
       width: 100%;
       height: unset;
+      background-color: rgba(0, 0, 0, 0);
       .popup-inner{
         .popupchart{
           grid-template-columns: 1fr ;

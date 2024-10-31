@@ -27,17 +27,20 @@ const Home = (props) => {
       <div className="Container">
         <div className="Cards">
         {Object.keys(Device).map((id) => (
-          <Devices 
-          key={id} 
-          id = {id}
-          uid = {props.User.uid}
-          lastupdate = {Device[id].LastTime}
-          battery= {Device[id].Monitoring.BAT}
-          flood= {Device[id].Monitoring.FLD}
-          rainfall= {Device[id].Monitoring.RF}
-          waterlevel= {Device[id].Monitoring.WL}
-          name= {Device[id].Name}
-          /> ))}
+          Device[id].Name && (
+            <Devices
+              key={id}
+              id={id}
+              uid={props.User.uid}
+              lastupdate={Device[id].LastTime}
+              battery={Device[id].Monitoring.BAT}
+              flood={Device[id].Monitoring.FLD}
+              rainfall={Device[id].Monitoring.RF}
+              waterlevel={Device[id].Monitoring.WL}
+              name={Device[id].Name}
+            />
+              )
+            ))}
           <Addnew/>
         </div>
       </div>

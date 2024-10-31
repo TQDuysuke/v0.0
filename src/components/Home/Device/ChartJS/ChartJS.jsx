@@ -53,12 +53,12 @@ class ChartJS extends Component {
   render() {
     return (
       <div className="monthly-chart">
-        {true ?        <Chart
+        {this.props.dat ?        <Chart
           options={this.state.options}
           series={this.state.series}
           type="area"
           height={300}
-        /> : <div>data unavaiable</div>}
+        /> : <div>This day don't have data</div>}
       </div>
     );
   }
