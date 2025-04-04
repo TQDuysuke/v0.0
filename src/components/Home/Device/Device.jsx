@@ -4,6 +4,7 @@ import {DevChart} from '../Datatemplate';
 import ChartJS from './ChartJS/ChartJS'
 import './Device.scss';
 import DatePicker from 'react-datepicker';
+import MapComponent from './MapComponent/MapComponent';
 import "react-datepicker/dist/react-datepicker.css";
 var formattedDate ;
 const Device = (props) => {
@@ -131,6 +132,7 @@ const Device = (props) => {
                 <ChartJS time = {KeyTime} dat = {rfValues} name = "Rain fall" color = "#00B4D8"/>
                 <ChartJS time = {KeyTime} dat = {fldValues} name = "Flood Likelihood" color = "#FF9F43"/>
                 <ChartJS time = {KeyTime} dat = {batValues} name = "Battery" color = "#FF6B6B"/>
+                <MapComponent latitude={10.031294} longitude={105.770439} />
             </div>
             <button className='button-9' onClick={togglePopup}>CLOSE DATA VIEWER</button>
           </div>
