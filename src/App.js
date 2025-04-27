@@ -1,4 +1,4 @@
-// import './App.scss'
+import './App.scss'
 import './firebase'
 import React, { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
