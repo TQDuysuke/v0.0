@@ -6,7 +6,7 @@ import Auth from './Auth/Auth'
 import Home from './components/Home/Home';
 
 const App = () => {
-  const [Login, SetLogin] = useState(true);
+  const [Login, SetLogin] = useState(false);
   const [User, SetUser] = useState();
   const handleDataFromChild = (data) => {
     if(data.email && data.password){
